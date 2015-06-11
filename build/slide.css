@@ -1,0 +1,22 @@
+.slider {
+  width: 350;
+  height: 150px;
+  float: left;
+  overflow: hidden;
+  position: relative;
+}
+.slider ul {
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+}
+.slider ul li {
+  margin: 0;
+  padding: 0;
+  float: left;
+  width: 350;
+  height: 150px;
+}

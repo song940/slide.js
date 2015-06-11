@@ -1,0 +1,28 @@
+{
+  "name": "slide.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/song940/slide.js",
+  "authors": [
+    "Lsong <song940@gmail.com>"
+  ],
+  "description": "image slide show",
+  "main": "src/slide.js",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals"
+  ],
+  "keywords": [
+    "image",
+    "slide",
+    "js"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
