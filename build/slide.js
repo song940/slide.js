@@ -8,22 +8,34 @@
   }
 }(this, function() {
 function Slide(options) {
-  this.options = options;
-  this.el = this.options.el;
+
+  this.el = options.el;
   this.ul = this.el.getElementsByTagName('ul')[0];
   this.li = this.ul.getElementsByTagName('li');
+  var style = window.getComputedStyle(this.el, null);
+  this.options = {
+    position: 0,
+    vertical: false,
+    interval: 3000,
+    width : parseInt(style.width),
+    height: parseInt(style.height)
+  };
 
-  this.currentPos = 0;
-  if (this.options.vertical) {
+  for(var key in options){
+    this.options[ key ] = options[ key ];
+  }
+  this.currentIndex = 0;
+
+  this.el.style.width  = this.options.width  + 'px';
+  this.el.style.height = this.options.height + 'px';
+  if (this.options.vertical){
     this.ul.style.top = 0;
-    this.options.height = this.options.height || this.li[0].offsetHeight;
     this.ul.style.height = (this.li.length * this.options.height) + 'px';
   } else {
     this.ul.style.left = 0;
-    this.options.width = this.options.width || this.li[0].offsetWidth;
-    this.ul.style.width = (this.li.length * this.options.width) + 'px';
+    this.ul.style.width  = (this.li.length * this.options.width ) + 'px';
   }
-  this.pos(this.options.position || 0);
+  this.slide(this.options.position);
   if (this.options.interval) {
     this.play();
   }
@@ -32,8 +44,8 @@ function Slide(options) {
 Slide.prototype.play = function() {
   var self = this;
   this.interval = setInterval(function(){
-      self.move(1);
-    }, this.options.interval);
+    self.move(1);
+  }, this.options.interval);
 };
 
 Slide.prototype.stop = function () {
@@ -41,33 +53,34 @@ Slide.prototype.stop = function () {
 };
 
 Slide.prototype.move = function(d) {
-  var n = this.currentPos + d;
-  n = n >= this.li.length ? 0 : n;
-  n = n < 0 ? this.li.length-1 : n;
-  this.pos(n);
+  var n = this.currentIndex + d;
+  n = n >= this.li.length ? 0   : n;
+  n = n < 0 ? this.li.length-1  : n;
+  this.slide(n);
 };
 
-Slide.prototype.pos = function(pos) {
+Slide.prototype.slide = function(pos) {
   var self = this;
-  this.currentPos = pos;
-  var current = this.options.vertical ? parseInt(this.ul.style.top) : parseInt(this.ul.style.left);
-  var to      = this.options.vertical ? pos * this.options.height : pos * this.options.width;
-  var d = to > Math.abs(current) ? 1 : -1;
-  to *= -1;
-  clearInterval(this.ul.si);
-  this.ul.si = setInterval(function(){
-    self.slide(to, d);
-  }, 20);
-};
+  this.currentIndex = pos;
+  var from = this.options.vertical ? parseInt(this.ul.style.top)
+                                   : parseInt(this.ul.style.left);
+  var to   = this.options.vertical ? pos * this.options.height
+                                   : pos * this.options.width;
 
-Slide.prototype.slide = function(to, d) {
-  var current = this.options.vertical ? parseInt(this.ul.style.top) : parseInt(this.ul.style.left);
-  if (current == to) {
-    clearInterval(this.ul.si);
-  } else {
-      var step = current - Math.ceil(Math.abs(to - current) * .15) * d ;
-      this.options.vertical ? this.ul.style.top = step : this.ul.style.left = step + 'px';
-  }
+  var d = to > Math.abs(from) ? 1 : -1;
+  to *= -1;
+  clearInterval(this.animateInterval);
+  this.animateInterval = setInterval(function(){
+    var current = self.options.vertical ? parseInt(self.ul.style.top)
+                                        : parseInt(self.ul.style.left);
+    if(current == to){
+      clearInterval(self.animateInterval);
+    }else{
+      var step = current - Math.ceil(Math.abs(to - current) * .15) * d + 'px';
+      self.options.vertical ? self.ul.style.top  = step
+                            : self.ul.style.left = step;
+    }
+  }, 20);
 };
 
 return Slide;

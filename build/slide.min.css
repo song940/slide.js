@@ -1,1 +1,1 @@
-.slider,.slider ul li{float:left;width:350;height:150px}.slider{overflow:hidden;position:relative}.slider ul{top:0;left:0;margin:0;padding:0;list-style:none;position:absolute}.slider ul li{margin:0;padding:0}
+.slider{float:left;overflow:hidden;position:relative}.slider ul{margin:0;padding:0;list-style:none;position:absolute}.slider ul li{margin:0;padding:0;float:left}
