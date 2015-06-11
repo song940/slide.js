@@ -7,6 +7,11 @@
     root.Slide = factory();
   }
 }(this, function() {
+'use strict';
+/**
+ * [Slide description]
+ * @param {[type]} options [description]
+ */
 function Slide(options) {
 
   this.el = options.el;
@@ -15,17 +20,15 @@ function Slide(options) {
   var style = window.getComputedStyle(this.el, null);
   this.options = {
     position: 0,
-    vertical: false,
+    vertical: 0,
     interval: 3000,
     width : parseInt(style.width),
     height: parseInt(style.height)
   };
-
   for(var key in options){
     this.options[ key ] = options[ key ];
   }
   this.currentIndex = 0;
-
   this.el.style.width  = this.options.width  + 'px';
   this.el.style.height = this.options.height + 'px';
   if (this.options.vertical){
@@ -40,25 +43,39 @@ function Slide(options) {
     this.play();
   }
 }
-
+/**
+ * [function description]
+ * @return {[type]} [description]
+ */
 Slide.prototype.play = function() {
   var self = this;
   this.interval = setInterval(function(){
     self.move(1);
   }, this.options.interval);
 };
-
+/**
+ * [stop description]
+ * @return {[type]} [description]
+ */
 Slide.prototype.stop = function () {
   clearInterval(this.interval);
 };
-
-Slide.prototype.move = function(d) {
-  var n = this.currentIndex + d;
+/**
+ * [function description]
+ * @param  {[type]} direction [description]
+ * @return {[type]}           [description]
+ */
+Slide.prototype.move = function(direction) {
+  var n = this.currentIndex + direction;
   n = n >= this.li.length ? 0   : n;
   n = n < 0 ? this.li.length-1  : n;
   this.slide(n);
 };
-
+/**
+ * [function description]
+ * @param  {[type]} pos [description]
+ * @return {[type]}     [description]
+ */
 Slide.prototype.slide = function(pos) {
   var self = this;
   this.currentIndex = pos;
@@ -66,7 +83,7 @@ Slide.prototype.slide = function(pos) {
                                    : parseInt(this.ul.style.left);
   var to   = this.options.vertical ? pos * this.options.height
                                    : pos * this.options.width;
-
+  //
   var d = to > Math.abs(from) ? 1 : -1;
   to *= -1;
   clearInterval(this.animateInterval);

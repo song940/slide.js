@@ -24,6 +24,7 @@
   "devDependencies": {
     "coffee-script": "^1.9.3",
     "gulp": "^3.9.0",
+    "gulp-jsdoc": "^0.1.4",
     "gulp-less": "^3.0.3",
     "gulp-minify-css": "^1.1.6",
     "gulp-rename": "^1.2.2",
