@@ -13,7 +13,7 @@
  * @param {[type]} options [description]
  */
 function Slide(options) {
-
+  var self = this;
   this.el = options.el;
   this.ul = this.el.getElementsByTagName('ul')[0];
   this.li = this.ul.getElementsByTagName('li');
@@ -42,6 +42,18 @@ function Slide(options) {
   if (this.options.interval) {
     this.play();
   }
+
+  this.el.addEventListener('touchstart' , function(ev){
+    self.touchStartPos = ev.changedTouches[0].clientX;
+    self.stop();
+  });
+
+  this.el.addEventListener('touchend' , function(ev){
+    self.touchStopPos = ev.changedTouches[0].clientX;
+    self.move((self.touchStartPos > self.touchStopPos) ? 1:-1)
+    self.play();
+  });
+
 }
 /**
  * [function description]
